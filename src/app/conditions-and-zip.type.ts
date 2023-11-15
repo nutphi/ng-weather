@@ -1,6 +1,6 @@
-import {CurrentConditions} from './current-conditions/current-conditions.type';
+import {CurrentConditions, ZipCountry} from './current-conditions/current-conditions.type';
 
-export interface ConditionsAndZip {
-    zip: string;
+export interface ConditionsAndZipCountry {
+    zipCountry: ZipCountry;
     data: CurrentConditions;
 }

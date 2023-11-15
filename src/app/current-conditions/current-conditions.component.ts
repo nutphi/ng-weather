@@ -2,8 +2,9 @@ import {Component, inject, Signal} from '@angular/core';
 import {WeatherService} from "../weather.service";
 import {LocationService} from "../location.service";
 import {Router} from "@angular/router";
-import {ConditionsAndZip} from '../conditions-and-zip.type';
-import { Subject } from 'rxjs';
+import {ConditionsAndZipCountry} from '../conditions-and-zip.type';
+import {ZipCountry} from './current-conditions.type';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-current-conditions',
@@ -11,24 +12,17 @@ import { Subject } from 'rxjs';
   styleUrls: ['./current-conditions.component.css']
 })
 export class CurrentConditionsComponent {
-
   private weatherService = inject(WeatherService);
   private router = inject(Router);
   protected locationService = inject(LocationService);
-  protected currentConditionsByZip: Signal<ConditionsAndZip[]> = this.weatherService.getCurrentConditions();
-  constructor() {
-    this.weatherService.init();
-  }
-  showForecast(zipcode : string){
-    this.router.navigate(['/forecast', zipcode])
+  protected currentConditionsByZip: Signal<Observable<ConditionsAndZipCountry>[]> = this.weatherService.getCurrentConditionObservableSignal();
+
+  showForecast(zipCountry : ZipCountry){
+    this.router.navigate(['/forecast', zipCountry.country.id, zipCountry.zip]);
   }
 
-  removeLocation(zip: string, event: Event) {
+  removeLocation(zipCountry: ZipCountry, event: Event) {
     event.stopPropagation(); 
-    return this.locationService.removeLocation(zip);
-  }
-
-  ngOnDestroy() {
-    this.weatherService.destroy();
+    return this.locationService.removeLocation(zipCountry);
   }
 }

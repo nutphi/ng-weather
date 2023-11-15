@@ -11,11 +11,12 @@ import { Observable } from 'rxjs';
 export class ForecastsListComponent {
 
   @Input() zipcode: string;
+  @Input() country: string;
   forecast$: Observable<Forecast>;
 
   constructor(protected weatherService: WeatherService) {
     afterNextRender(() => {
-      this.forecast$ = weatherService.getForecast(this.zipcode);
+      this.forecast$ = weatherService.getForecast(this.country, this.zipcode);
     });
   }
 }

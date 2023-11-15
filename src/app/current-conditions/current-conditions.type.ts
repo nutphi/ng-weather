@@ -1,8 +1,13 @@
 import { Weathers } from "app/forecasts-list/forecast.type";
+import { Observable } from "rxjs";
+
+export function ZipCountryKey(zipCountry: ZipCountry) {
+    return `${zipCountry.zip},${zipCountry.country.id}`;
+}
 
 export interface CurrentConditions extends Weathers{
     coord:      Coord;
-    // weather:    Weathers;
+    // weather:    Weathers; remove it to use generic type
     base:       string;
     main:       Main;
     visibility: number;
@@ -48,6 +53,17 @@ export interface Weather {
     description: string;
     icon:        string;
     src?:         string;
+}
+
+export interface ZipCountry {
+    zip: string;
+    country: Country;
+    invalid?: boolean;
+}
+
+export interface Country {
+    id: string;
+    description: string;
 }
 
 export interface Wind {

@@ -1,0 +1,11 @@
+<input [formControl]="countryInput" type="text" placeholder="Country" class="form-control">
+@if (countries$ | async; as countries) {
+  @if (countries.length > 0 && !hidden) {
+    <ul class="dropdown-menu">
+      @for(country of countries; track country) {
+      <li class="dropdown" (click)="select(country)"
+        [innerHTML]="(country.description | boldSearchText: countryInput.value)"></li>
+      }
+    </ul>
+  }
+}
