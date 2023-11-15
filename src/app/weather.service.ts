@@ -16,6 +16,7 @@ export class WeatherService {
   private zipcodes = signal<string[]>([]);
   private trigger$ = new BehaviorSubject<void>(null);
   private unsubscribe$ = new Subject<void>();
+  public request$!: Observable<any>;
   constructor(private http: HttpClient) { }
 
   init() {
@@ -44,8 +45,10 @@ export class WeatherService {
 
   getCondition(zipcode: string): Observable<CurrentConditions> {
     // also adding map icon
-    return this.http.get<CurrentConditions>(`${WeatherService.URL}/weather?zip=${zipcode},us&units=imperial&APPID=${WeatherService.APPID}`)
+    // set the request for observable
+    this.request$ =this.http.get<CurrentConditions>(`${WeatherService.URL}/weather?zip=${zipcode},us&units=imperial&APPID=${WeatherService.APPID}`)
       .pipe(map(this.mapConditionWithIconSrc<CurrentConditions>));
+    return this.request$;
   }
 
   mapConditionWithIconSrc = <T extends Weathers>(data: T) => {
