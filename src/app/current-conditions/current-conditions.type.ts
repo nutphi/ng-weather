@@ -1,6 +1,8 @@
-export interface CurrentConditions {
+import { Weathers } from "app/forecasts-list/forecast.type";
+
+export interface CurrentConditions extends Weathers{
     coord:      Coord;
-    weather:    Weather[];
+    // weather:    Weathers;
     base:       string;
     main:       Main;
     visibility: number;
@@ -45,6 +47,7 @@ export interface Weather {
     main:        string;
     description: string;
     icon:        string;
+    src?:         string;
 }
 
 export interface Wind {

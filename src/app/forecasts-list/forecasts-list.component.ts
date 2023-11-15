@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input, afterNextRender } from '@angular/core';
 import {WeatherService} from '../weather.service';
-import {ActivatedRoute} from '@angular/router';
 import {Forecast} from './forecast.type';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-forecasts-list',
@@ -10,14 +10,12 @@ import {Forecast} from './forecast.type';
 })
 export class ForecastsListComponent {
 
-  zipcode: string;
-  forecast: Forecast;
+  @Input() zipcode: string;
+  forecast$: Observable<Forecast>;
 
-  constructor(protected weatherService: WeatherService, route : ActivatedRoute) {
-    route.params.subscribe(params => {
-      this.zipcode = params['zipcode'];
-      weatherService.getForecast(this.zipcode)
-        .subscribe(data => this.forecast = data);
+  constructor(protected weatherService: WeatherService) {
+    afterNextRender(() => {
+      this.forecast$ = weatherService.getForecast(this.zipcode);
     });
   }
 }

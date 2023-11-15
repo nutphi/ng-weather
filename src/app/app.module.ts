@@ -28,10 +28,9 @@ import { environment } from '../environments/environment';
     FormsModule,
     HttpClientModule,
     RouterModule,
-    routing,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [LocationService, WeatherService],
+  providers: [LocationService, WeatherService, routing],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

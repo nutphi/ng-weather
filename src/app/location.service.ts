@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {WeatherService} from "./weather.service";
 
 export const LOCATIONS : string = "locations";
 
 @Injectable()
 export class LocationService {
-
+  private weatherService = inject(WeatherService)
   locations : string[] = [];
 
-  constructor(private weatherService : WeatherService) {
+  constructor() {
     let locString = localStorage.getItem(LOCATIONS);
     if (locString)
       this.locations = JSON.parse(locString);

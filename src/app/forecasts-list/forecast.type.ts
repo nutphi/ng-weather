@@ -1,3 +1,7 @@
+export interface Weathers {
+    weather: Weather[];
+}
+
 export interface Forecast {
     city:    City;
     cod:     string;
@@ -20,7 +24,7 @@ export interface Coord {
     lat: number;
 }
 
-export interface List {
+export interface List extends Weathers{
     dt:         number;
     sunrise:    number;
     sunset:     number;
@@ -28,7 +32,7 @@ export interface List {
     feels_like: FeelsLike;
     pressure:   number;
     humidity:   number;
-    weather:    Weather[];
+    // weather:    Weathers;
     speed:      number;
     deg:        number;
     gust:       number;
@@ -58,4 +62,5 @@ export interface Weather {
     main:        string;
     description: string;
     icon:        string;
+    src:         string;
 }
