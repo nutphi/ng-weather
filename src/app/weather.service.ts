@@ -1,5 +1,5 @@
 import {Injectable, Signal, signal} from '@angular/core';
-import {BehaviorSubject, Observable, Subject, timer} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, merge, timer} from 'rxjs';
 import {filter, map, switchMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {CurrentConditions, ZipCountry} from './current-conditions/current-conditions.type';
@@ -14,8 +14,8 @@ export class WeatherService {
   private currentConditionsSignal = signal<ConditionsAndZipCountry[]>([]);
   private currentConditionObservableSignal = signal<Observable<ConditionsAndZipCountry>[]>([]);
   private unsubscribe$ = new Subject<void>();
-  private trigger$ = new BehaviorSubject<void>(null);
-  public request$!: Observable<any>;
+  private buttonTrigger$ = new BehaviorSubject<void>(null);
+  public firstRequest$: Observable<void> = this.buttonTrigger$.asObservable();
   constructor(private http: HttpClient) { }
 
   destroy() {
@@ -24,8 +24,13 @@ export class WeatherService {
 
   getConditionAndZipInterval(zipCountry: ZipCountry): Observable<ConditionsAndZipCountry> {
     return timer(0, 30000).pipe(
-      switchMap(() => this.getCondition(zipCountry))
-    );
+      switchMap((n: number) => {
+        if (n === 0) {
+          this.buttonTrigger$.next();
+        }
+        return this.getCondition(zipCountry);
+      })
+    );;
   }
 
   getCondition(zipCountry: ZipCountry): Observable<ConditionsAndZipCountry> {
@@ -55,7 +60,6 @@ export class WeatherService {
       zipcountriesObservableList.push(this.getConditionAndZipInterval(zipCountry));
       return zipcountriesObservableList;
     });
-    this.trigger$.next();
   }
 
   removeCurrentConditions(index: number) {
@@ -64,8 +68,6 @@ export class WeatherService {
       zipcountries.splice(index, 1);
       return zipcountries;
     });
-
-    this.trigger$.next();
   }
 
   getCurrentConditionsSignal(): Signal<ConditionsAndZipCountry[]> {

@@ -4,29 +4,5 @@
   <br>
   <app-country-select-input formControlName="country" [countries]="countries()" (countryChange)="selectedCountry = $event"></app-country-select-input>
   <br>
-  <app-button (click)="addLocation()">
-    <ng-container #container></ng-container>
-  </app-button>
+  <app-button (click)="addLocation()" [observable$]="button$" [valid$]="isValid$"></app-button>
 </form>
-
-<!-- template for button -->
-<ng-template #add>
-  <button class="btn btn-primary">
-    Add location
-  </button>
-</ng-template>
-<ng-template #adding>
-  <button class="btn btn-info">
-    Adding ...
-  </button>
-</ng-template>
-<ng-template #done>
-  <button class="btn btn-success">
-    Done
-  </button>
-</ng-template>
-<ng-template #failed>
-  <button class="btn btn-danger">
-    Add location (Invalid)
-  </button>
-</ng-template>

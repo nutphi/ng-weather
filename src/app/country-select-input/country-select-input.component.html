@@ -2,7 +2,7 @@
 @if (countries$ | async; as countries) {
   @if (countries.length > 0 && !hidden) {
     <ul class="dropdown-menu">
-      @for(country of countries; track country) {
+      @for(country of countries; track country.id) {
       <li class="dropdown" (click)="select(country)"
         [innerHTML]="(country.description | boldSearchText: countryInput.value)"></li>
       }
