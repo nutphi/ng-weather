@@ -1,29 +1,31 @@
 <div>
-  @if (currentConditionsByZip(); as locations$) {
-    {{ locations$.length }}
-    @for (location$ of currentConditionsByZip(); track location$) {
-      @if (location$ | async; as location) {
-        <div class="well flex" (click)="showForecast(location.zipCountry)">
-          <div>
-            <h3>{{location.data.name}} ({{location.zipCountry.zip}}, {{location.zipCountry.country.description}})</h3>
-            <h4>Current conditions: {{location.data.weather[0].main}}</h4>
-            <h4>Temperatures today:</h4>
-            <p>
-              Current {{location.data.main.temp | number:'.0-0'}}
-              - Max {{location.data.main.temp_max | number:'.0-0'}}
-              - Min {{location.data.main.temp_min | number:'.0-0'}}
-            </p>
-            <p>
-              <a [routerLink]="['/forecast', location.zipCountry.country.id, location.zipCountry.zip]" >Show 5-day forecast for {{location.data.name}}</a>
-            </p>
-          </div>
-          <div>
-            <span class="close" (click)="removeLocation(location.zipCountry, $event)">&times;</span>
-            <img [src]="location.data.weather[0].src">
-          </div>
-        </div>
+    <app-tab [names]="locationNames()">
+      @for (location$ of currentConditionsByZip(); track location$) {
+        @if (location$ | async; as location) {
+          <ng-template #template>
+            <div class="well flex" (click)="showForecast(location.zipCountry)">
+              <div>
+                <h3>{{location.data.name}} ({{location.zipCountry.zip}}, {{location.zipCountry.country.description}})</h3>
+                <h4>Current conditions: {{location.data.weather[0].main}}</h4>
+                <h4>Temperatures today:</h4>
+                <p>
+                  Current {{location.data.main.temp | number:'.0-0'}}
+                  - Max {{location.data.main.temp_max | number:'.0-0'}}
+                  - Min {{location.data.main.temp_min | number:'.0-0'}}
+                </p>
+                <p>
+                  <a [routerLink]="['/forecast', location.zipCountry.country.id, location.zipCountry.zip]" >Show 5-day forecast for {{location.data.name}}</a>
+                </p>
+              </div>
+              <div>
+                <span class="close" (click)="removeLocation(location.zipCountry, $event)">&times;</span>
+                <img [src]="location.data.weather[0].src">
+              </div>
+            </div>
+          </ng-template>
+        }
       }
-    }
-  }
+    </app-tab>
+  
   
 </div>

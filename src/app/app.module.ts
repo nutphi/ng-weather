@@ -19,28 +19,30 @@ import {CountrySelectInputComponent} from './components/country-select-input/cou
 import {BoldSearchTextPipe} from './pipes/bold-search-text.pipe';
 import {ZipcodeCountriesComponent} from './zipcode-countries/zipcode-countries.component';
 import {CountryService} from './services/country.service';
+import { TabComponent } from "./components/tab/tab.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ZipcodeEntryComponent,
-    ForecastsListComponent,
-    CurrentConditionsComponent,
-    MainPageComponent,
-    ButtonComponent,
-    CountrySelectInputComponent,
-    ZipcodeCountriesComponent,
-    BoldSearchTextPipe
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
-  ],
-  providers: [LocationService, WeatherService, CountryService, routing],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        ZipcodeEntryComponent,
+        ForecastsListComponent,
+        CurrentConditionsComponent,
+        MainPageComponent,
+        ButtonComponent,
+        CountrySelectInputComponent,
+        ZipcodeCountriesComponent,
+        BoldSearchTextPipe,
+        TabComponent
+    ],
+    providers: [LocationService, WeatherService, CountryService, routing],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        RouterModule,
+        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    ]
 })
 export class AppModule { }
