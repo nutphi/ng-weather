@@ -1,4 +1,4 @@
-import {Injectable, signal} from '@angular/core';
+import {Injectable, computed, signal} from '@angular/core';
 import {ZipCountry} from '../current-conditions/current-conditions.type';
 import {StorageService} from './storage.service';
 import {LOCATIONS_STORAGE} from './storage.model';
@@ -7,6 +7,12 @@ import {LOCATIONS_STORAGE} from './storage.model';
 export class LocationService {
   private locationsSignal = signal<ZipCountry[]>([]);
   public locations = this.locationsSignal.asReadonly();
+  public locationNames = computed<string[]>(() =>
+    this.locationsSignal()
+      .map(zipCountry =>
+        `${zipCountry.country.description} (${zipCountry.zip})`
+      )
+  );
 
   constructor(private storage: StorageService<ZipCountry>) {
     // run default
@@ -21,9 +27,9 @@ export class LocationService {
     });
   }
 
-  removeLocation(zipCountry: ZipCountry) {
+  removeLocation(index: number) {
     this.locationsSignal.update((locations: ZipCountry[]) => {
-      this.storage.removeValueIntoArrayLocalStorage(LOCATIONS_STORAGE, locations, zipCountry); // locations is updated via reference object
+      this.storage.removeValueIntoArrayLocalStorage(LOCATIONS_STORAGE, locations, locations[index]); // locations is updated via reference object
       return locations;
     });
   }

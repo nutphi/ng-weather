@@ -15,20 +15,21 @@ export class CurrentConditionsComponent {
   private router = inject(Router);
   protected locationService = inject(LocationService);
   protected currentConditionsByZip: Signal<Observable<ConditionsAndZipCountry>[]> = this.weatherService.conditions$;
-  protected locationNames = computed(() =>
-    this.locationService.locations()
-      .map(zipCountry =>
-        `${zipCountry.country.description} (${zipCountry.zip})`
-      )
+
+  getLocationNames(): Signal<string[]> {
+    return computed(() =>
+      this.locationService.locations()
+        .map(zipCountry =>
+          `${zipCountry.country.description} (${zipCountry.zip})`
+        )
     )
+  }
 
   showForecast(zipCountry : ZipCountry){
     this.router.navigate(['/forecast', zipCountry.country.id, zipCountry.zip]);
   }
 
-  removeLocation(zipCountry: ZipCountry, event: Event) {
-    // console.log(zipCountry);
-    // event.stopPropagation(); 
-    return this.locationService.removeLocation(zipCountry);
+  removeLocation(index: number) {
+    return this.locationService.removeLocation(index);
   }
 }

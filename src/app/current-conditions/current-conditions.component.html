@@ -1,5 +1,5 @@
 <div>
-    <app-tab [names]="locationNames()">
+    <app-tab [names]="getLocationNames()()" (removeTab)="removeLocation($event)">
       @for (location$ of currentConditionsByZip(); track location$) {
         @if (location$ | async; as location) {
           <ng-template #template>
@@ -18,7 +18,6 @@
                 </p>
               </div>
               <div>
-                <span class="close" (click)="removeLocation(location.zipCountry, $event)">&times;</span>
                 <img [src]="location.data.weather[0].src">
               </div>
             </div>
@@ -26,6 +25,4 @@
         }
       }
     </app-tab>
-  
-  
 </div>

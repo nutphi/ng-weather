@@ -10,14 +10,14 @@ export class CacheService {
     const url = req.urlWithParams;
     const cached = this.cache.get(url);
     // if no cache or expired, cache will return undefined
-    if (!cached) {
-      return undefined;
-    }
-    const isExpired = cached.lastHttpCallTimestamp < Date.now() - CacheService.TWO_HOURS;
-    if (isExpired) {
+    if (!cached || this.isExpired(cached)) {
       return undefined;
     }
     return cached.response;
+  }
+
+  isExpired(cached: HttpCache): boolean {
+    return cached.lastHttpCallTimestamp < Date.now() - CacheService.TWO_HOURS;
   }
 
   put(req: HttpRequest<unknown>, response: HttpResponse<unknown>, maxAge: number): void {

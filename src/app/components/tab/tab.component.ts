@@ -1,4 +1,4 @@
-import { Component, ContentChildren, Input, QueryList, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef, ViewChild, ViewContainerRef, afterRender } from '@angular/core';
 
 @Component({
   selector: 'app-tab',
@@ -9,6 +9,7 @@ import { Component, ContentChildren, Input, QueryList, TemplateRef, ViewChild, V
         [class.btn-success]="currentIndex === index"
         [class.btn-info]="currentIndex !== index"
         (click)="changeTab(index)">{{name}}</button>
+      <span class="close" (click)="remove(index)">&times;</span>
     }
   </div>
   <ng-template #main></ng-template>
@@ -27,6 +28,7 @@ import { Component, ContentChildren, Input, QueryList, TemplateRef, ViewChild, V
 })
 export class TabComponent {
   @Input() names!: string[];
+  @Output() removeTab: EventEmitter<number> = new EventEmitter<number>();
   @ContentChildren('template') items!: QueryList<any>;
   @ViewChild("main", { read: ViewContainerRef, static: true }) container!: ViewContainerRef;
   currentTab: TemplateRef<any>;
@@ -42,6 +44,20 @@ export class TabComponent {
   changeTab(index: number) {
     this.currentIndex = index;
     const template = this.items.get(index);
-    this.changeState(template);
+    if (template) {
+      this.changeState(template);
+    } else {
+      this.container.clear();
+    }
+    
+  }
+
+  remove(index: number) {
+    if (this.items.length > 0) {
+      let newIdx = index !== 0 ? index - 1 : index + 1;
+      this.changeTab(newIdx);
+      this.currentIndex = newIdx;
+    }
+    this.removeTab.emit(index);
   }
 }
