@@ -1,7 +1,7 @@
 import {Injectable, Signal, signal} from '@angular/core';
 import {BehaviorSubject, Observable, Subject, timer} from 'rxjs';
-import {filter, map, switchMap} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {ConditionsAndZipCountry, CurrentConditions, ZipCountry} from '../current-conditions/current-conditions.type';
 import {Forecast, Weather, Weathers} from '../pages/forecasts-list/forecast.type';
 import {StorageService} from './storage.service';
@@ -95,8 +95,13 @@ export class WeatherService {
   }
 
   public getForecast(country: string, zipcode: string): Observable<Forecast> {
+    const params = new HttpParams()
+      .set('cache', 'true');
     // Here we make a request to get the forecast data from the API. Note the use of backticks and an expression to insert the zipcode
-    return this.http.get<Forecast>(`${WeatherService.URL}/forecast/daily?zip=${zipcode},${country}&units=imperial&cnt=5&APPID=${WeatherService.APPID}`)
+    return this.http.get<Forecast>(
+      `${WeatherService.URL}/forecast/daily?zip=${zipcode},${country}&units=imperial&cnt=5&APPID=${WeatherService.APPID}`,
+      { params }
+    )
       .pipe(
         map((forcast: Forecast) => ({
           ...forcast, list: forcast.list.map(this.mapConditionWithIconSrc)

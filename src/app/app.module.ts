@@ -11,7 +11,7 @@ import {CurrentConditionsComponent} from './current-conditions/current-condition
 import {MainPageComponent} from './pages/main-page/main-page.component';
 import {RouterModule} from "@angular/router";
 import {routing} from "./app.routing";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors} from "@angular/common/http";
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {ButtonComponent} from './components/button/button.component';
@@ -20,6 +20,8 @@ import {BoldSearchTextPipe} from './pipes/bold-search-text.pipe';
 import {ZipcodeCountriesComponent} from './zipcode-countries/zipcode-countries.component';
 import {CountryService} from './services/country.service';
 import { TabComponent } from "./components/tab/tab.component";
+import { cacheInterceptor } from './services/cache.interceptor';
+import { CacheService } from './services/cache.service';
 
 @NgModule({
     declarations: [
@@ -34,7 +36,18 @@ import { TabComponent } from "./components/tab/tab.component";
         BoldSearchTextPipe,
         TabComponent
     ],
-    providers: [LocationService, WeatherService, CountryService, routing],
+    providers: [
+        LocationService,
+        WeatherService,
+        CountryService,
+        CacheService,
+        routing,
+        [
+          provideHttpClient(
+            withInterceptors([cacheInterceptor])
+          )
+        ]
+    ],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
