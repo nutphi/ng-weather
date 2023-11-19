@@ -1,7 +1,7 @@
-import { Component, Input, afterNextRender } from '@angular/core';
-import {WeatherService} from '../weather.service';
+import {Component, Input, afterNextRender} from '@angular/core';
+import {WeatherService} from '../../services/weather.service';
 import {Forecast} from './forecast.type';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-forecasts-list',

@@ -1,8 +1,8 @@
-import { DestroyRef, Injectable, signal, inject, Signal } from '@angular/core';
-import { Country } from './current-conditions/current-conditions.type';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import {DestroyRef, Injectable, signal, inject, Signal} from '@angular/core';
+import {Country} from '../current-conditions/current-conditions.type';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class CountryService {

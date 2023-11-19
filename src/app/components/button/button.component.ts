@@ -1,7 +1,7 @@
-import { Component, DestroyRef, HostListener, Input, TemplateRef, ViewChild, ViewContainerRef, afterNextRender, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import {Component, DestroyRef, HostListener, Input, TemplateRef, ViewChild, ViewContainerRef, afterNextRender, inject} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {Observable} from 'rxjs';
+import {delay, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-button',

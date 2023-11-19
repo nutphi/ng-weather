@@ -1,9 +1,9 @@
-import { Component, Input, afterNextRender, forwardRef } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Country } from 'app/current-conditions/current-conditions.type';
-import { ControlValueAccessor } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Component, Input, afterNextRender, forwardRef} from '@angular/core';
+import {FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {Country} from 'app/current-conditions/current-conditions.type';
+import {ControlValueAccessor} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-country-select-input',

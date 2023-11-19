@@ -1,7 +1,7 @@
 import {Routes, provideRouter, withComponentInputBinding} from '@angular/router';
-import {ForecastsListComponent} from "./forecasts-list/forecasts-list.component";
-import {MainPageComponent} from "./main-page/main-page.component";
-import { EnvironmentProviders } from '@angular/core';
+import {ForecastsListComponent} from "./pages/forecasts-list/forecasts-list.component";
+import {MainPageComponent} from "./pages/main-page/main-page.component";
+import {EnvironmentProviders} from '@angular/core';
 
 const appRoutes: Routes = [
   {

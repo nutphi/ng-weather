@@ -1,11 +1,11 @@
-import { Component, DestroyRef, TemplateRef, ViewChild, ViewContainerRef, inject } from '@angular/core';
-import { LocationService } from "../location.service";
-import { WeatherService } from 'app/weather.service';
-import { Country, ZipCountry } from 'app/current-conditions/current-conditions.type';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map } from 'rxjs/operators';
-import { of, merge } from 'rxjs';
-import { CountryService } from 'app/country.service';
+import {Component, inject} from '@angular/core';
+import {LocationService} from "../services/location.service";
+import {WeatherService} from 'app/services/weather.service';
+import {Country, ZipCountry} from 'app/current-conditions/current-conditions.type';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {map} from 'rxjs/operators';
+import {of, merge} from 'rxjs';
+import {CountryService} from 'app/services/country.service';
 
 @Component({
   selector: 'app-zipcode-entry',

@@ -1,10 +1,10 @@
-import { Weathers } from "app/forecasts-list/forecast.type";
-import { Observable } from "rxjs";
+import {Weathers} from "app/pages/forecasts-list/forecast.type"; // list of weather
 
-export function ZipCountryKey(zipCountry: ZipCountry) {
-    return `${zipCountry.zip},${zipCountry.country.id}`;
+// to group zip country and condition together
+export interface ConditionsAndZipCountry {
+    zipCountry: ZipCountry;
+    data: CurrentConditions;
 }
-
 export interface CurrentConditions extends Weathers{
     coord:      Coord;
     // weather:    Weathers; remove it to use generic type
@@ -46,19 +46,16 @@ export interface Sys {
     sunrise: number;
     sunset:  number;
 }
-
-export interface Weather {
-    id:          number;
-    main:        string;
-    description: string;
-    icon:        string;
-    src?:         string;
-}
-
 export interface ZipCountry {
     zip: string;
     country: Country;
     invalid?: boolean;
+}
+
+export type Action = 'add' | 'remove';
+export interface ZipCountryActionEvent {
+    zipCountry: ZipCountry;
+    action: Action;
 }
 
 export interface Country {
