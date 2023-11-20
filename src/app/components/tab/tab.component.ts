@@ -1,4 +1,4 @@
-import { Component, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef, ViewChild, ViewContainerRef, afterRender } from '@angular/core';
+import {Component, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef, ViewChild, ViewContainerRef, afterNextRender} from '@angular/core';
 
 @Component({
   selector: 'app-tab',
@@ -32,9 +32,20 @@ export class TabComponent {
   @ContentChildren('template') items!: QueryList<any>;
   @ViewChild("main", { read: ViewContainerRef, static: true }) container!: ViewContainerRef;
   currentTab: TemplateRef<any>;
-  currentIndex: number;
+  currentIndex: number = 0;
 
-  constructor() { }
+  constructor() {
+    afterNextRender(() => {
+      // activated when content children changes
+      this.items.changes.subscribe(() => {
+        // try updating if no views in the containers
+        const template = this.items.get(this.currentIndex);
+        if (!this.container.length && template) {
+          this.changeState(template);
+        }
+      });
+    })
+  }
 
   changeState(template: TemplateRef<HTMLTemplateElement>) {
     this.container.clear();
@@ -49,15 +60,13 @@ export class TabComponent {
     } else {
       this.container.clear();
     }
-    
   }
 
   remove(index: number) {
-    if (this.items.length > 0) {
-      let newIdx = index !== 0 ? index - 1 : index + 1;
-      this.changeTab(newIdx);
-      this.currentIndex = newIdx;
-    }
+    // change into new index if the length is max
+    const newIndexCondition = index == this.names.length - 1 && index > 0;
+    this.currentIndex = newIndexCondition ? index - 1 : index;
+    this.container.clear();
     this.removeTab.emit(index);
   }
 }
