@@ -16,14 +16,13 @@ export class CurrentConditionsComponent {
   protected locationService = inject(LocationService);
   protected currentConditionsByZip: Signal<Observable<ConditionsAndZipCountry>[]> = this.weatherService.conditions$;
 
-  getLocationNames(): Signal<string[]> {
-    return computed(() =>
-      this.locationService.locations()
-        .map(zipCountry =>
-          `${zipCountry.country.description} (${zipCountry.zip})`
-        )
-    )
-  }
+  locationNames: Signal<string[]> = computed(() =>
+    this.locationService.locations()
+      .map(zipCountry =>
+        `${zipCountry.country.description} (${zipCountry.zip})`
+      )
+  )
+  
 
   showForecast(zipCountry : ZipCountry){
     this.router.navigate(['/forecast', zipCountry.country.id, zipCountry.zip]);

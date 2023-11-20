@@ -1,5 +1,5 @@
 <div>
-    <app-tab [names]="getLocationNames()()" (removeTab)="removeLocation($event)">
+    <app-tab [names]="locationNames()" (removeTab)="removeLocation($event)">
       @for (location$ of currentConditionsByZip(); track location$) {
         @if (location$ | async; as location) {
           <ng-template #template>

@@ -5,7 +5,7 @@ import {LOCATIONS_STORAGE} from './storage.model';
 
 @Injectable()
 export class LocationService {
-  private locationsSignal = signal<ZipCountry[]>([]);
+  private locationsSignal = signal<Array<ZipCountry>>([]);
   public locations = this.locationsSignal.asReadonly();
   public locationNames = computed<string[]>(() =>
     this.locationsSignal()
@@ -23,14 +23,14 @@ export class LocationService {
   addLocation(zipCountry: ZipCountry) {
     this.locationsSignal.update((locations: ZipCountry[]) => {
       this.storage.addValueIntoArrayLocalStorage(LOCATIONS_STORAGE, locations, zipCountry); // locations is updated via reference object
-      return locations;
+      return Array.from(locations);
     });
   }
 
   removeLocation(index: number) {
     this.locationsSignal.update((locations: ZipCountry[]) => {
       this.storage.removeValueIntoArrayLocalStorage(LOCATIONS_STORAGE, locations, locations[index]); // locations is updated via reference object
-      return locations;
+      return Array.from(locations);
     });
   }
 }
